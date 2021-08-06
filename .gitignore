@@ -1,5 +1,7 @@
-/ProjectSettings
-/UserSettings
-/Logs
-/Builds
-/Assets/Cainos
+ProjectSettings/
+UserSettings/
+Logs/
+Builds/
+Assets/Cainos/
+Library/
+Packages/
