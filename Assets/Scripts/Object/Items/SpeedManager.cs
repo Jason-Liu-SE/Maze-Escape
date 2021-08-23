@@ -9,9 +9,6 @@ public class SpeedManager : MonoBehaviour {
     private PlayerMovement playerMovement;
     private float originalSpeed;
 
-    public bool activateScript = false;
-    public bool speedActive = false;
-
     private GameObject speedEffect;
 
     void Start() {
@@ -25,18 +22,23 @@ public class SpeedManager : MonoBehaviour {
         speedEffect = GameObject.Find("HUD/Effects/Speed Effect");
     }
 
-    void Update() {
-        if (!speedActive)
-            if (activateScript) {
-                ActivateAdrenaline();
-                speedActive = true;
-                activateScript = false;
-            }
+    void OnTriggerStay2D() {
+        // checking if the player already has the speed effect. If they do, don't allow the player to pick up the speed boost
+        if (playerMovement.walkSpeed == originalSpeed) {
+            ActivateAdrenaline();
+            
+            // deleting the sprite renderer and the collision trigger.
+            // if the transform is disabled, the timer will never stop
+            Destroy(transform.gameObject.GetComponent<BoxCollider2D>());
+            Destroy(transform.gameObject.GetComponent<SpriteRenderer>());
+        }
     }
 
     public void ActivateAdrenaline() {
-        // applying the speed boost 
-        playerMovement.walkSpeed *= speedIncreasePercent/100+1; 
+        // applying the speed boost if the player is at normal speed. Otherwise, just increase the duration of the effect
+        if (playerMovement.walkSpeed == originalSpeed) 
+            playerMovement.walkSpeed *= speedIncreasePercent/100+1; 
+        
         speedEffect.SetActive(true);
 
         // starting a timer for the adrenaline boost. Once the timer is over, the boost should be removed
@@ -46,13 +48,15 @@ public class SpeedManager : MonoBehaviour {
     public void RemoveAdrenaline() {
         playerMovement.walkSpeed = originalSpeed;
         speedEffect.SetActive(false);
-        speedActive = false;
     }
 
     IEnumerator Timer() {
         float timer = 0f;
 
         while (timer < duration) {
+            // checking if the player
+
+            // increasing the timer
             timer += Time.deltaTime;
 
             yield return null;

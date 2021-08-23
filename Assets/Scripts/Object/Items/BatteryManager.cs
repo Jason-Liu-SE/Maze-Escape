@@ -5,7 +5,6 @@ using UnityEngine;
 public class BatteryManager : MonoBehaviour {
     // this is how much energy the battery can refill the flashlight with (percent)
     [Range(0f, 100f)] public float batteryCapacityPercent;
-    public bool activate;
 
     private FlashlightManager flashlightManager;
 
@@ -17,11 +16,10 @@ public class BatteryManager : MonoBehaviour {
             Debug.Log("ERROR: No FlashlightManager component has been found.");
     }
 
-    void Update() {
-        if (activate) {
-            RefillFlashlightEnergy();
-            activate = false;    
-        }
+
+    void OnTriggerEnter2D() {
+        RefillFlashlightEnergy();
+        transform.gameObject.SetActive(false);
     }
 
     public void RefillFlashlightEnergy() {

@@ -17,6 +17,11 @@ public static class InputManager {
         // loading the keybinds into the keybinds object
         keybinds = SaveManager.Load("config.json");
 
+        // checking if all the keybinds in the keybind object are null
+        foreach(FieldInfo field in typeof(Keybinds).GetFields())    
+            if (field.GetValue(keybinds) == null)
+                Reset();
+
         // filling the actionsToKeybinds dictionary
         PopulateActionsToKeybindsDictionary();
 

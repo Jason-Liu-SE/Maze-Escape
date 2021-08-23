@@ -632,6 +632,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Interact Prompt
       objectReference: {fileID: 0}
+    - target: {fileID: 8057366278947522303, guid: 546a378d9bec5a74b8fc5589dfe3b5ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 546a378d9bec5a74b8fc5589dfe3b5ab, type: 3}
 --- !u!1 &33240881849184885 stripped
