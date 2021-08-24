@@ -17,8 +17,10 @@ public class AManager : MonoBehaviour {
     private float minNodeX = 0;         // stores the minimum x and y to a node. This is used to convert negative x and y values (negative array index values) into positives integers
     private float minNodeY = 0;
 
+    private bool fieldsArePopulated = false;
+
     // this is called when the maze is generated
-    void Start() {
+    public void PopulateFields() {
         mazeManager = GameObject.Find("Map").GetComponent<MazeManager>();
         nodesList = mazeManager.GetNodes();
         nodeOffset = mazeManager.GetNodeOffset();
@@ -37,32 +39,33 @@ public class AManager : MonoBehaviour {
         int randNum = (int)Random.Range(0f, (float)nodesList.Count);
         transform.position = new Vector3(nodesList[randNum].x, nodesList[randNum].y, transform.position.z);
 
-        // placing the target in the centre of the maze
-        target.transform.position = mazeManager.GetSpawnCentre();
-
         // determining the bottom left position
         DetermineMinCoordinates(nodesList);
+
+        fieldsArePopulated = true;
     }
 
     public void GenerateAStarPath() {
-        // clearing the original path
-        //if (path.Count > 0) foreach (Node node in path) Erase(node.x, node.y);
+        if (fieldsArePopulated) {
+            // clearing the original path
+            //if (path.Count > 0) foreach (Node node in path) Erase(node.x, node.y);
 
-        // determining the start and end nodes
-        Node start = new Node(transform.position.x, transform.position.y);               // hunter
-        Node end = new Node(target.transform.position.x, target.transform.position.y);   // target
+            // determining the start and end nodes
+            Node start = new Node(transform.position.x, transform.position.y);               // hunter
+            Node end = new Node(target.transform.position.x, target.transform.position.y);   // target
 
-        // generating the path
-        AGenerator.GenerateAPath(mapData, start, end, nodeSeparation);
+            // generating the path
+            AGenerator.GenerateAPath(mapData, start, end, nodeSeparation);
 
-        // retrieving the path
-        path = AGenerator.GetAPath();
+            // retrieving the path
+            path = AGenerator.GetAPath();
 
-        /////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////// VISUALIZING THE A* PATH ////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////
-        //foreach (Node node in nodesList) DrawNode(node.x, node.y);
-        //foreach (Node node in path) Draw(node.x, node.y);
+            /////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////// VISUALIZING THE A* PATH ////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////
+            //foreach (Node node in nodesList) DrawNode(node.x, node.y);
+            //foreach (Node node in path) Draw(node.x, node.y);
+        }
     }
 
 /*

@@ -101,10 +101,19 @@ public class KeybindManager : MonoBehaviour {
         // iterating through each of the keybind buttons
         KeyCode keyCode;
 
+        // storing the key name
+        string keyText = "";
+
         foreach (Transform button in keybindButtons.GetComponentInChildren<Transform>()) {
+            // if the keytext is a null value, skip this key
+            keyText = button.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+
+            if (keyText == "" || keyText == null)
+                continue;
+
             // checking how many times the associated keybind has been used.
             // If it has been used more than once, than don't change the colour to white
-            keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), button.gameObject.GetComponentInChildren<TextMeshProUGUI>().text);
+            keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), keyText);
 
             if (InputManager.keyCount[keyCode].Count < 2)
                 button.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = new Color32 (243, 243, 243, 255);

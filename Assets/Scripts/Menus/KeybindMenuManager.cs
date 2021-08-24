@@ -9,7 +9,7 @@ public class KeybindMenuManager : ChildMenuManager {
     public void ResetKeybinds() {
         // resetting the keybinds in the input manager
         InputManager.Reset();
-
+        
         // updating the TMPro text on each keybind button
         foreach (Transform button in keybindButtons.GetComponentInChildren<Transform>()) 
             // updating the displayed keybind text for each keybind

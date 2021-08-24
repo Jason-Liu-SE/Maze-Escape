@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exceptions:
-  - {fileID: 0}
+  - {fileID: 1346410274}
   defaultMenu: {fileID: 1777081179}
 --- !u!1 &1066138706
 GameObject:
@@ -862,6 +862,12 @@ PrefabInstance:
 --- !u!224 &1346410273 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4866248227428169113, guid: 93ec768c140fda543b34847df6372b51,
+    type: 3}
+  m_PrefabInstance: {fileID: 1346410272}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1346410274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4866248227545721492, guid: 93ec768c140fda543b34847df6372b51,
     type: 3}
   m_PrefabInstance: {fileID: 1346410272}
   m_PrefabAsset: {fileID: 0}
