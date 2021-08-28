@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class PauseMenuManager : MonoBehaviour {
+public class PauseMenuManager : MenuManager {
     public GameObject effects;
     public GameObject pauseMenu;
 
@@ -31,10 +31,5 @@ public class PauseMenuManager : MonoBehaviour {
             effects.SetActive(false);
             Time.timeScale = 1;
         }
-    }
-
-    public void LoadMainMenu() {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("Main Menu");
     }
 }

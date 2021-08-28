@@ -88,7 +88,7 @@ public class MazeManager : MonoBehaviour {
     //////////////////////////////////////////////////////////////////// GENERATING MAZE ////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Called when a new map is to be created
-    void Awake() {
+    private void ValidateInspectorFields() {
         // Ensuring properties are valid
         if (mazeSize.x < 1) mazeSize.x = 1;
         if (mazeSize.y < 1) mazeSize.y = 1;
@@ -106,17 +106,18 @@ public class MazeManager : MonoBehaviour {
         // PathWidth becomes the distance inbetween two nodes
         pathWidth.x += wallWidth.x - 1;
         pathWidth.y += 2 + wallWidth.y - 1;
+    }
 
-        // Initiallizing a path
-        path = new bool[mazeSize.x + pathWidth.x, mazeSize.y + pathWidth.y];
-
+    private void PopulateHiddenFields() {
         // Calculating the offset required to spawnCentre a node on a path
         nodeOffset = new Vector2((pathWidth.x-wallWidth.x)/2f, (pathWidth.y-wallWidth.y)/2f);
         
         // Defaulting the top left and bottom right corners of the playable map area
         bottomLeft = new Vector2Int(mazeSize.x + pathWidth.x + 1, mazeSize.y + pathWidth.y+1);
         topRight = new Vector2Int(-1, -1);
-        
+    }
+
+    private void SetupMapCanvas() {
         // Erasing the previous map
         groundMap.ClearAllTiles();
         wallMap.ClearAllTiles();
@@ -135,13 +136,18 @@ public class MazeManager : MonoBehaviour {
         leftSidingMap.transform.position = groundMap.transform.position;
         rightSidingMap.transform.position = groundMap.transform.position;
         topSidingMap.transform.position = groundMap.transform.position;
-
-        // Generating the maze
-        GenerateMaze(path);
     }
-    
-    // procedure that takes in a bool[,] path, which will be constantly updated to represent the map
-    void GenerateMaze(bool[,] path) {
+
+    public void GenerateMaze() {
+        ValidateInspectorFields();
+        PopulateHiddenFields();
+
+        // Initiallizing a path
+        path = new bool[mazeSize.x + pathWidth.x, mazeSize.y + pathWidth.y];
+
+        // clearing, creating, and moving map objects
+        SetupMapCanvas();
+
         // Generating the path location
         mazeGenerator.Init();
         mazeGenerator.GeneratePaths(path, ChooseRandomCell(mazeSize));
@@ -275,8 +281,12 @@ public class MazeManager : MonoBehaviour {
         return new Vector2Int(pathWidth.x+1, pathWidth.y+1);
     }
 
-    public Vector2Int GetMazeSize() {
+    public Vector2Int GetMazeSize() {       // this is the size specified in the inspector; not the actual size
         return mazeSize;
+    }
+
+    public Vector2Int GetActualMazeSize() {
+        return new Vector2Int(topRight.x-bottomLeft.x+1+borderWidth*2, topRight.y-bottomLeft.y+borderWidth*2+3);
     }
     
     public Vector2Int GetWallWidth() {
@@ -334,6 +344,10 @@ public class MazeManager : MonoBehaviour {
 
     public Vector2 GetSpawnCentre() {
         return spawnCentre;
+    }
+
+    public Vector2 GetCentre() {
+        return new Vector2((topRight.x-bottomLeft.x)/2f + bottomLeft.x, (topRight.y-bottomLeft.y)/2f + bottomLeft.y);
     }
 
     public MapData GetMapData() {

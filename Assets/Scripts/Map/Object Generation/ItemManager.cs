@@ -13,7 +13,7 @@ public class ItemManager : MonoBehaviour {
     private List<Vector2> spawningLocations;        // the possible locations that items can spawn at 
 
     // once the map is loaded and generated, generate the items and their locations
-    void Start() {
+    public void GenerateItems() {
         // determining which nodes are dead ends. These are the possible locations that items can spawn at
         spawningLocations = DetermineDeadEnds();
         

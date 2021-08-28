@@ -7,26 +7,11 @@ using TMPro;
 // this script will be attached to each keybind button
 public class KeybindManager : MonoBehaviour {
     private TextMeshProUGUI text;
-    private Image backgroundImage;
 
     public GameObject waitingMenu;
     public GameObject keybindButtons;
 
     void Start() {
-        // getting the background image
-        foreach (Transform child in waitingMenu.transform) {
-            if (child.gameObject.name == "Background") {
-                backgroundImage = child.gameObject.GetComponent<Image>();
-                break;
-            }
-        }
-
-        // changing the dimensions of the background image
-        if (backgroundImage != null) {
-            if (backgroundImage.minWidth != Screen.width || backgroundImage.minHeight != Screen.height) 
-                backgroundImage.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
-        }
-
         // updating the displayed keybind text for each keybind
         transform.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = InputManager.GetKeyForValue(transform.gameObject.name).ToString();
     
@@ -101,10 +86,19 @@ public class KeybindManager : MonoBehaviour {
         // iterating through each of the keybind buttons
         KeyCode keyCode;
 
+        // storing the key name
+        string keyText = "";
+
         foreach (Transform button in keybindButtons.GetComponentInChildren<Transform>()) {
+            // if the keytext is a null value, skip this key
+            keyText = button.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+
+            if (keyText == "" || keyText == null)
+                continue;
+
             // checking how many times the associated keybind has been used.
             // If it has been used more than once, than don't change the colour to white
-            keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), button.gameObject.GetComponentInChildren<TextMeshProUGUI>().text);
+            keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), keyText);
 
             if (InputManager.keyCount[keyCode].Count < 2)
                 button.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = new Color32 (243, 243, 243, 255);

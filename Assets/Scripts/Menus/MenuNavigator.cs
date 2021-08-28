@@ -56,6 +56,9 @@ public class MenuNavigator : MonoBehaviour {
     // this function will iterate through the exceptions list to determine if the escape key
     // was pressed in a menu that omits this function
     private bool IsException() {
+        if (exceptions == null)
+            return false;
+
         if (exceptions.Count > 0)
             foreach (GameObject exception in exceptions)
                 if (menuHierarchy.Peek().name == exception.name)
