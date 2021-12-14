@@ -18,12 +18,15 @@ public static class InputManager {
         keybinds = SaveManager.Load("config.json");
 
         // checking if all the keybinds in the keybind object are null
-        foreach(FieldInfo field in typeof(Keybinds).GetFields())    
+        foreach(FieldInfo field in typeof(Keybinds).GetFields()) 
             if (field.GetValue(keybinds) == null)
                 Reset();
 
         // filling the actionsToKeybinds dictionary
         PopulateActionsToKeybindsDictionary();
+
+        // foreach (KeyValuePair<string, KeyCode> kvp in actionsToKeybinds)
+        //     Debug.Log(kvp.Key + " " + kvp.Value);
 
         // keeping an accurate count of the used keybinds
         PopulateKeyCount();
@@ -242,6 +245,9 @@ public static class InputManager {
         keybinds.right = "D";
         keybinds.escape = "Escape";
         keybinds.interact = "E";
+        keybinds.ability1 = "Alpha1";
+        keybinds.ability2 = "Alpha2";
+        keybinds.ability3 = "Alpha3";
 
         // saving the new keybinds
         SaveManager.Save(keybinds, "config.json");

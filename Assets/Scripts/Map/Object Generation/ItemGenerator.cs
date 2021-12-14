@@ -22,6 +22,8 @@ public class ItemGenerator : MonoBehaviour {
 
     // elements will be randomly chosen from this list in order to determine which items to spawn
     private List<string> weightedItems = new List<string>();
+    [Header("Other Dependencies")]
+    public InventoryManager invManager;
 
     // determining which items to spawn and where to spawn them
     public void GenerateItems(List<Vector2> spawningLocations) {
@@ -117,7 +119,9 @@ public class ItemGenerator : MonoBehaviour {
     private void GenerateMap(List<Vector2> spawningLocations) {
         Vector2 location = GetRandomLocation(spawningLocations);
 
-        LoadPrefab("Map", location);
+        GameObject prefab = LoadPrefab("Map", location); 
+
+        prefab.GetComponent<MapManager>().invManager = invManager;
 
         // indicating that an object has been spawned at the given location
         spawningLocations.Remove(location);

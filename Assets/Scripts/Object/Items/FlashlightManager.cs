@@ -24,10 +24,13 @@ public class FlashlightManager : MonoBehaviour {
     public GameObject projectedLight;
 
     private bool lightIsEnabled;
+    private bool flashlightEnabled;
 
     void Update() {
-        DecreaseEnergy(Time.deltaTime * dimensions.x/totalEnergyCapacity * energyLossPerSecond);
-        UpdateDisplayedEnergy();
+        if (flashlightEnabled) {
+            DecreaseEnergy(Time.deltaTime * dimensions.x/totalEnergyCapacity * energyLossPerSecond);
+            UpdateDisplayedEnergy();
+        }
     }
 
     // this function will refill this flashlight's battery
@@ -43,17 +46,19 @@ public class FlashlightManager : MonoBehaviour {
 
     // this function will remove energy from currentEnergy
     private void DecreaseEnergy(float decreaseAmount) {
-        // checking if energy can be removed from the battery
-        if (currentEnergy > 0) {
-            currentEnergy -= decreaseAmount;
+        if (lightIsEnabled) {
+            // checking if energy can be removed from the battery
+            if (currentEnergy > 0) {
+                currentEnergy -= decreaseAmount;
 
-            // ensuring that the current energy is within bounds after removing energy
-            if (currentEnergy > totalEnergyCapacity)        // greater than the total capacity
-                currentEnergy = totalEnergyCapacity;
-            else if (currentEnergy < 0)     // less than zero
+                // ensuring that the current energy is within bounds after removing energy
+                if (currentEnergy > totalEnergyCapacity)        // greater than the total capacity
+                    currentEnergy = totalEnergyCapacity;
+                else if (currentEnergy < 0)     // less than zero
+                    currentEnergy = 0;
+            } else if (currentEnergy < 0)
                 currentEnergy = 0;
-        } else if (currentEnergy < 0)
-            currentEnergy = 0;
+        }
     }
 
     // this function will change the displayed energy, along with the icon
@@ -87,5 +92,30 @@ public class FlashlightManager : MonoBehaviour {
             lightIsEnabled = false; 
         else if (currentEnergy > 0)
             lightIsEnabled = true; 
+    }
+
+    // turns on the flashlight
+    public void Enable() {
+        flashlightEnabled = true;
+
+        // enabling the light
+        if (projectedLight != null)
+                projectedLight.SetActive(true);
+        if (reflectionLight != null)
+            reflectionLight.SetActive(true);
+    }
+
+    // turns off the flashlight
+    public void Disable() {
+        flashlightEnabled = false;
+
+        // changing the displayed sprite
+        flashlightIcon.sprite = offSprite;
+
+        // disabling the light
+        if (projectedLight != null)
+                projectedLight.SetActive(false);
+        if (reflectionLight != null)
+            reflectionLight.SetActive(false);
     }
 }
