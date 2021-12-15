@@ -24,7 +24,7 @@ public class FlashlightManager : MonoBehaviour {
     public GameObject projectedLight;
 
     private bool lightIsEnabled;
-    private bool flashlightEnabled;
+    private bool flashlightEnabled = true;
 
     void Update() {
         if (flashlightEnabled) {

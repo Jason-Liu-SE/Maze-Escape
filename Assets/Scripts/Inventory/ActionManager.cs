@@ -5,6 +5,7 @@ using UnityEngine;
 public class ActionManager : MonoBehaviour {
     public InventoryManager invManager;
     public FlashlightManager flashlightManager;
+    public MapDisplay mapDisplay;
 
     // waiting for key presses
     void Update() {

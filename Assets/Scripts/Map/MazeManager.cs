@@ -288,6 +288,10 @@ public class MazeManager : MonoBehaviour {
     public Vector2Int GetActualMazeSize() {
         return new Vector2Int(topRight.x-bottomLeft.x+1+borderWidth*2, topRight.y-bottomLeft.y+borderWidth*2+3);
     }
+
+    public Vector2Int GetActualInnerMazeSize() {
+        return new Vector2Int(topRight.x-bottomLeft.x+1, topRight.y-bottomLeft.y+1);
+    }
     
     public Vector2Int GetWallWidth() {
         return wallWidth;
