@@ -14,6 +14,7 @@ public class InventoryManager : MonoBehaviour {
 
     public items itemTextures;
     public InventoryDisplay invDisplay;
+    public MapDisplay mapDisplay;
     
     private Dictionary<string, bool> inventory = new Dictionary<string, bool>(){{"Flashlight", false}, 
                                                                                {"Map", false},
@@ -53,10 +54,13 @@ public class InventoryManager : MonoBehaviour {
     // enables or disables item, but does not remove it from the inventory
     public void ToggleItem(string item) {
         if (item == "Map") {
-            if (invDisplay.MapOff == itemTextures.Map.sprite)                   // the map is disabled
+            if (invDisplay.MapOff == itemTextures.Map.sprite) {                   // the map is disabled
                 invDisplay.Show(invDisplay.MapOn, itemTextures.Map);
-            else if (invDisplay.MapOn == itemTextures.Map.sprite)               // the map is enabled
+                mapDisplay.Hide();
+            } else if (invDisplay.MapOn == itemTextures.Map.sprite) {             // the map is enabled
                 invDisplay.Show(invDisplay.MapInactive, itemTextures.Map);
+                mapDisplay.Show();
+            }
 
             // // the map has just be picked up
             if (invDisplay.MapOff != invDisplay.MapInactive)                    // first time picking up the map {
