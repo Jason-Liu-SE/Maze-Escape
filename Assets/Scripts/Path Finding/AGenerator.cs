@@ -58,32 +58,43 @@ public class AGenerator : MonoBehaviour {
                 // checking if the node is in the closed list
                 if (closed.Any(x => x.x == node.x && x.y == node.y)) continue;
 
-                // setting the parent of node
-                node.parent = curr;
-
                 // calculting the node's g, h, and f scores 
                 node.g = curr.g + 1;
                 node.h = h(node, end);
                 node.f = Mathf.Pow(node.g, 2) + node.h;
+                node.parent = curr;
 
                 // checking if the node is already in the open list
                 openNodeIndex = open.FindIndex(x => x.x == node.x && x.y == node.y);
-                if (openNodeIndex < 0) {        // the node is not in the open list
-                    node.parent = curr;
-                    open.Add(node);
-                } else {                        // the node is in the open list
+                
+                if (openNodeIndex >= 0) {
                     openNode = open[openNodeIndex];
 
-                    // the current g cost is lower than the g cost of the open node
-                    if (node.g < openNode.g) {
-                        openNode.g = node.g;
-                        openNode.f = node.f;
-                        openNode.parent = node.parent;
-
-                        // replacing the node in the open list
-                        open[openNodeIndex] = openNode;
+                    if (node.g > openNode.g) {
+                        continue;
+                    } else {
+                        // removing openNode from the open list
+                        open.Remove(openNode);
                     }
                 }
+
+                open.Add(node);
+                // if (openNodeIndex < 0) {        // the node is not in the open list
+                //     node.parent = curr;
+                //     open.Add(node);
+                // } else {                        // the node is in the open list
+                //     openNode = open[openNodeIndex];
+
+                //     // the current g cost is lower than the g cost of the open node
+                //     if (node.g < openNode.g) {
+                //         openNode.g = node.g;
+                //         openNode.f = node.f;
+                //         openNode.parent = node.parent;
+
+                //         // replacing the node in the open list
+                //         open[openNodeIndex] = openNode;
+                //     }
+                // }
             }
 
             // sorting the open list by f value. Descending order
