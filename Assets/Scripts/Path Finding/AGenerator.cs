@@ -77,6 +77,7 @@ public class AGenerator : MonoBehaviour {
                     // the current g cost is lower than the g cost of the open node
                     if (node.g < openNode.g) {
                         openNode.g = node.g;
+                        openNode.f = node.f;
                         openNode.parent = node.parent;
 
                         // replacing the node in the open list
