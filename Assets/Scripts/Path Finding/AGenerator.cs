@@ -69,6 +69,7 @@ public class AGenerator : MonoBehaviour {
                 // checking if the node is already in the open list
                 openNodeIndex = open.FindIndex(x => x.x == node.x && x.y == node.y);
                 if (openNodeIndex < 0) {        // the node is not in the open list
+                    node.parent = curr;
                     open.Add(node);
                 } else {                        // the node is in the open list
                     openNode = open[openNodeIndex];
